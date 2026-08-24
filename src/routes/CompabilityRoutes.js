@@ -5,7 +5,7 @@ import {
   obtenerCompatibilidad,
   actualizarCompatibilidad,
   eliminarCompatibilidad,
-} from "../controllers/CompabilityControlers"; 
+} from "../controllers/CompabilityControlers.js"; 
 
 const router = Router();
 

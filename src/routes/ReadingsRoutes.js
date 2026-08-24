@@ -5,7 +5,7 @@ import {
   obtenerLectura,
   actualizarLectura,
   eliminarLectura,
-} from "../controllers/ReadingControllers"; 
+} from "../controllers/ReadingControllers.js"; 
 
 const router = Router();
 

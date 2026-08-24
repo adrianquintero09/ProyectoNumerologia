@@ -4,7 +4,7 @@ import {
   listarAuditLogs,
   obtenerAuditLog,
   eliminarAuditLog,
-} from "../controllers/AuditLogControllers"; 
+} from "../controllers/AuditLogControllers.js"; 
 
 const router = Router();
 

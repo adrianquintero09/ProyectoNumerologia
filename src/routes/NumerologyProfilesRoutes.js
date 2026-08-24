@@ -5,7 +5,7 @@ import {
   obtenerPerfilNumerologico,
   actualizarPerfilNumerologico,
   eliminarPerfilNumerologico,
-} from "../controllers/NumerologyProfileControllers"; 
+} from "../controllers/NumerologyProfileControllers.js"; 
 
 const router = Router();
 
