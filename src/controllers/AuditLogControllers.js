@@ -1,6 +1,6 @@
 import AuditLogsModel from "../models/AuditLogsModel.js";
 
-// Crear registro de auditoría
+
 export const crearAuditLog = async (req, res) => {
   try {
     const { usuario, endpoint, metodo, status_code } = req.body;
@@ -21,12 +21,12 @@ export const crearAuditLog = async (req, res) => {
   }
 };
 
-// Listar todos los logs
+
 export const listarAuditLogs = async (req, res) => {
   try {
     const logs = await AuditLogsModel.find()
       .populate("usuario", "nombre_completo email")
-      .sort({ timestamp: -1 }); // Muestra los registros más recientes primero
+      .sort({ timestamp: -1 }); 
 
     res.status(200).json(logs);
   } catch (error) {
@@ -37,7 +37,6 @@ export const listarAuditLogs = async (req, res) => {
   }
 };
 
-// Obtener un log por ID
 export const obtenerAuditLog = async (req, res) => {
   try {
     const log = await AuditLogsModel.findById(req.params.id).populate("usuario", "nombre_completo email");
@@ -55,7 +54,7 @@ export const obtenerAuditLog = async (req, res) => {
   }
 };
 
-// Eliminar log
+
 export const eliminarAuditLog = async (req, res) => {
   try {
     const log = await AuditLogsModel.findByIdAndDelete(req.params.id);

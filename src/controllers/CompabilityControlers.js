@@ -1,6 +1,6 @@
 import CompatibilityMatches from "../models/CompatibilityMatches.js";
 
-// Crear análisis de compatibilidad
+
 export const crearCompatibilidad = async (req, res) => {
   try {
     const { usuario_1, usuario_2, puntaje, interpretacion } = req.body;
@@ -21,12 +21,12 @@ export const crearCompatibilidad = async (req, res) => {
   }
 };
 
-// Actualizar análisis de compatibilidad
+
 export const actualizarCompatibilidad = async (req, res) => {
   try {
     const { puntaje, interpretacion } = req.body;
 
-    // Se actualizan únicamente el puntaje e interpretación
+
     const compatibilidad = await CompatibilityMatches.findByIdAndUpdate(
       req.params.id,
       { puntaje, interpretacion },
@@ -46,7 +46,7 @@ export const actualizarCompatibilidad = async (req, res) => {
   }
 };
 
-// Eliminar compatibilidad
+
 export const eliminarCompatibilidad = async (req, res) => {
   try {
     const compatibilidad = await CompatibilityMatches.findByIdAndDelete(req.params.id);
@@ -64,7 +64,7 @@ export const eliminarCompatibilidad = async (req, res) => {
   }
 };
 
-// Listar todas las compatibilidades
+
 export const listarCompatibilidades = async (req, res) => {
   try {
     const compatibilidades = await CompatibilityMatches.find()
@@ -80,7 +80,7 @@ export const listarCompatibilidades = async (req, res) => {
   }
 };
 
-// Obtener compatibilidad por ID
+
 export const obtenerCompatibilidad = async (req, res) => {
   try {
     const compatibilidad = await CompatibilityMatches.findById(req.params.id)

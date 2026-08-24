@@ -1,6 +1,6 @@
 import ReadingsModel from "../models/ReadingsModel.js";
 
-// Crear lectura
+
 export const crearLectura = async (req, res) => {
   try {
     const { usuario, prompt_enviado, respuesta_generada, tipo_lectura } = req.body;
@@ -21,7 +21,7 @@ export const crearLectura = async (req, res) => {
   }
 };
 
-// Actualizar lectura
+
 export const actualizarLectura = async (req, res) => {
   try {
     const { prompt_enviado, respuesta_generada, tipo_lectura } = req.body;
@@ -45,7 +45,7 @@ export const actualizarLectura = async (req, res) => {
   }
 };
 
-// Eliminar lectura
+
 export const eliminarLectura = async (req, res) => {
   try {
     const lectura = await ReadingsModel.findByIdAndDelete(req.params.id);
@@ -63,7 +63,6 @@ export const eliminarLectura = async (req, res) => {
   }
 };
 
-// Listar todas las lecturas
 export const listarLecturas = async (req, res) => {
   try {
     const lecturas = await ReadingsModel.find().populate("usuario", "nombre_completo email");
@@ -76,7 +75,7 @@ export const listarLecturas = async (req, res) => {
   }
 };
 
-// Obtener una lectura por ID
+
 export const obtenerLectura = async (req, res) => {
   try {
     const lectura = await ReadingsModel.findById(req.params.id).populate("usuario", "nombre_completo email");

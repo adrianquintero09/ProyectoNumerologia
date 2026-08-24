@@ -1,6 +1,6 @@
 import NumerologyProfilesModel from "../models/NumerologyProfilesModel.js";
 
-// Crear perfil numerológico
+
 export const crearPerfilNumerologico = async (req, res) => {
   try {
     const { usuario, numero_vida, numero_expresion, numero_alma } = req.body;
@@ -21,12 +21,12 @@ export const crearPerfilNumerologico = async (req, res) => {
   }
 };
 
-// Actualizar perfil numerológico
+
 export const actualizarPerfilNumerologico = async (req, res) => {
   try {
     const { numero_vida, numero_expresion, numero_alma } = req.body;
 
-    // "usuario" NO se modifica una vez creado el perfil
+
     const perfil = await NumerologyProfilesModel.findByIdAndUpdate(
       req.params.id,
       { numero_vida, numero_expresion, numero_alma },
@@ -46,7 +46,6 @@ export const actualizarPerfilNumerologico = async (req, res) => {
   }
 };
 
-// Eliminar perfil numerológico
 export const eliminarPerfilNumerologico = async (req, res) => {
   try {
     const perfil = await NumerologyProfilesModel.findByIdAndDelete(req.params.id);
@@ -64,7 +63,7 @@ export const eliminarPerfilNumerologico = async (req, res) => {
   }
 };
 
-// Listar todos los perfiles numerológicos
+
 export const listarPerfilesNumerologicos = async (req, res) => {
   try {
     const perfiles = await NumerologyProfilesModel.find().populate("usuario", "nombre_completo email");
@@ -77,7 +76,7 @@ export const listarPerfilesNumerologicos = async (req, res) => {
   }
 };
 
-// Obtener un perfil numerológico por ID
+
 export const obtenerPerfilNumerologico = async (req, res) => {
   try {
     const perfil = await NumerologyProfilesModel.findById(req.params.id).populate("usuario", "nombre_completo email");

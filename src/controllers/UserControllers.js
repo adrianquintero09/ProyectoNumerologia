@@ -1,11 +1,10 @@
 import UserModel from "../models/UserModel.js";
 
-// Crear usuario
 export const crearUsuario = async (req, res) => {
   try {
     const { nombre_completo, email, password_hash, fecha_nacimiento } = req.body;
     
-    // "fecha_registro" NO se desestructura: toma el valor por defecto en la BD (Date.now)
+
     const usuario = await UserModel.create({
       nombre_completo,
       email,
@@ -19,7 +18,7 @@ export const crearUsuario = async (req, res) => {
   }
 };
 
-// Actualizar usuario
+
 export const actualizarUsuario = async (req, res) => {
   try {
     const { nombre_completo, email, fecha_nacimiento } = req.body;
@@ -38,7 +37,7 @@ export const actualizarUsuario = async (req, res) => {
   }
 };
 
-// Eliminar usuario
+
 export const eliminarUsuario = async (req, res) => {
   try {
     const usuario = await UserModel.findByIdAndDelete(req.params.id);
@@ -51,7 +50,7 @@ export const eliminarUsuario = async (req, res) => {
   }
 };
 
-// Listar todos los usuarios
+
 export const listarUsuarios = async (req, res) => {
   try {
     const usuarios = await UserModel.find();
@@ -61,7 +60,7 @@ export const listarUsuarios = async (req, res) => {
   }
 };
 
-// Obtener un usuario por id
+
 export const obtenerUsuario = async (req, res) => {
   try {
     const usuario = await UserModel.findById(req.params.id);
