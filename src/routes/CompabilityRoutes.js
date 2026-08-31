@@ -5,13 +5,25 @@ import {
   obtenerCompatibilidad,
   actualizarCompatibilidad,
   eliminarCompatibilidad,
-} from "../controllers/CompabilityControlers.js"; 
+} from "../controllers/CompabilityControlers.js";
+
+import { validarTKN } from "../Middlewares/Tokens.js";
+
+
+import {
+  crearCompatibilityMatchValidator,
+  actualizarCompatibilityMatchValidator,
+} from "../Validators/CompatibilityMatchesValidator.js";
+import { idValidator } from "../Validators/AuditlogsValidator.js";
 
 const router = Router();
 
-router.post("/", crearCompatibilidad);
+router.use(validarTKN);
+
+router.post("/", crearCompatibilityMatchValidator, crearCompatibilidad);
 router.get("/", listarCompatibilidades);
-router.get("/:id", obtenerCompatibilidad);
-router.put("/:id", actualizarCompatibilidad);
-router.delete("/:id", eliminarCompatibilidad);
+router.get("/:id", idValidator, obtenerCompatibilidad);
+router.put("/:id", idValidator, actualizarCompatibilityMatchValidator, actualizarCompatibilidad);
+router.delete("/:id", idValidator, eliminarCompatibilidad);
+
 export default router;
