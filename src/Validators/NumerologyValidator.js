@@ -1,0 +1,35 @@
+import { body } from "express-validator";
+
+export const actualizarCompatibilityMatchValidator = [
+  body("usuario_1")
+    .optional()
+    .isMongoId()
+    .withMessage("El usuario_1 debe ser un ObjectId válido de MongoDB"),
+
+  body("usuario_2")
+    .optional()
+    .isMongoId()
+    .withMessage("El usuario_2 debe ser un ObjectId válido de MongoDB")
+    .custom((valor, { req }) => {
+      if (req.body.usuario_1 && valor === req.body.usuario_1) {
+        throw new Error("El usuario_2 no puede ser igual al usuario_1");
+      }
+      return true;
+    }),
+
+  body("puntaje")
+    .optional()
+    .isFloat({ min: 0, max: 100 })
+    .withMessage("El puntaje debe ser un número entre 0 y 100"),
+
+  body("interpretacion")
+    .optional()
+    .trim()
+    .isString()
+    .withMessage("La interpretación debe ser una cadena de texto"),
+
+  body("fecha")
+    .optional()
+    .isISO8601()
+    .withMessage("La fecha debe tener un formato ISO8601 válido"),
+];
