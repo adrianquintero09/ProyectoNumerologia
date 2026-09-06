@@ -1,36 +1,26 @@
 import { Router } from "express";
-import {
-  crearPerfilNumerologico,
-  listarPerfilesNumerologicos,
-  obtenerPerfilNumerologico,
-  actualizarPerfilNumerologico,
-  eliminarPerfilNumerologico,
+import { 
+  crearNumerologyProfile, 
+  listarNumerologyProfiles, 
+  obtenerNumerologyProfile, 
+  actualizarNumerologyProfile, 
+  eliminarNumerologyProfile 
 } from "../controllers/NumerologyProfileControllers.js";
-
-
-import { ValidarTKN } from "../middlewares/validar-jwt.js";
-import { actualizarCompatibilityMatchValidator } from "../middlewares/validar-match.js";
-import { validarCampos } from "../middlewares/validar-campos.js";
+import { 
+  crearNumerologyProfileValidator, 
+  actualizarNumerologyProfileValidator, 
+  idValidator 
+} from "../validators/NumerologyValidator.js";
+import { validarCampos } from "../middlewares/Validar.js";
+import { ValidarTKN } from "../middlewares/Tokens.js";
 
 const router = Router();
 
+router.get("/", listarNumerologyProfiles);
+router.get("/:id", idValidator, validarCampos, obtenerNumerologyProfile);
 
-router.use(ValidarTKN);
-
-router.post("/", crearPerfilNumerologico);
-router.get("/", listarPerfilesNumerologicos);
-router.get("/:id", obtenerPerfilNumerologico);
-
-
-router.put(
-  "/:id",
-  [
-    actualizarCompatibilityMatchValidator,
-    validarCampos
-  ],
-  actualizarPerfilNumerologico
-);
-
-router.delete("/:id", eliminarPerfilNumerologico);
+router.post("/", ValidarTKN, crearNumerologyProfileValidator, validarCampos, crearNumerologyProfile);
+router.put("/:id", ValidarTKN, idValidator, actualizarNumerologyProfileValidator, validarCampos, actualizarNumerologyProfile);
+router.delete("/:id", ValidarTKN, idValidator, validarCampos, eliminarNumerologyProfile);
 
 export default router;

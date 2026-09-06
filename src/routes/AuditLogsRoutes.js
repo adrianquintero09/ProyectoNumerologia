@@ -1,24 +1,27 @@
 import { Router } from "express";
-import {
-  crearAuditLog,
-  listarAuditLogs,
-  obtenerAuditLog,
-  eliminarAuditLog,
+import { 
+  crearAuditLog, 
+  listarAuditLogs, 
+  obtenerAuditLog, 
+  actualizarAuditLog, 
+  eliminarAuditLog 
 } from "../controllers/AuditLogControllers.js";
-
-
-import { validarTKN } from "../Middlewares/Tokens.js";
-import { crearAuditLogValidator, idValidator } from "../Validators/AuditlogsValidator.js";
+import {
+  crearAuditLogValidator,
+  actualizarAuditLogValidator,
+  idValidator,
+} from "../Validators/AuditlogsValidator.js";
+import { validarCampos } from "../middlewares/Validar.js";
+import { ValidarTKN } from "../middlewares/Tokens.js";
 
 const router = Router();
 
+router.use(ValidarTKN);
 
-router.use(validarTKN);
-
-
-router.post("/", crearAuditLogValidator, crearAuditLog);
 router.get("/", listarAuditLogs);
-router.get("/:id", idValidator, obtenerAuditLog);
-router.delete("/:id", idValidator, eliminarAuditLog);
+router.get("/:id", idValidator, validarCampos, obtenerAuditLog);
+router.post("/", crearAuditLogValidator, validarCampos, crearAuditLog);
+router.put("/:id", idValidator, actualizarAuditLogValidator, validarCampos, actualizarAuditLog);
+router.delete("/:id", idValidator, validarCampos, eliminarAuditLog);
 
 export default router;

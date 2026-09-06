@@ -7,44 +7,21 @@ import {
   eliminarUsuario,
 } from "../controllers/UserControllers.js";
 
-
-import { ValidarTKN } from "../middlewares/validar-jwt.js";
 import {
   crearUsuarioValidator,
-  actualizarUsuarioValidator
-} from "../middlewares/validar-usuario.js";
-import { validarCampos } from "../middlewares/validar-campos.js";
+  actualizarUsuarioValidator,
+  idValidator,
+} from "../Validators/UserValidator.js";
+
+import { validarCampos } from "../middlewares/Validar.js";
+import { ValidarTKN } from "../middlewares/Tokens.js";
 
 const router = Router();
 
-
-router.post(
-  "/",
-  [
-    crearUsuarioValidator,
-    validarCampos
-  ],
-  crearUsuario
-);
-
-
-router.use(ValidarTKN);
-
-
-router.get("/", listarUsuarios);
-router.get("/:id", obtenerUsuario);
-
-
-router.put(
-  "/:id",
-  [
-    actualizarUsuarioValidator,
-    validarCampos
-  ],
-  actualizarUsuario
-);
-
-
-router.delete("/:id", eliminarUsuario);
+router.post("/", [crearUsuarioValidator, validarCampos], crearUsuarioValidator);
+router.get("/", ValidarTKN, listarUsuarios);
+router.get("/:id", [ValidarTKN, idValidator, validarCampos], obtenerUsuario);
+router.put("/:id", [ValidarTKN, idValidator, actualizarUsuarioValidator, validarCampos], actualizarUsuarioValidator);
+router.delete("/:id", [ValidarTKN, idValidator, validarCampos], eliminarUsuario);
 
 export default router;

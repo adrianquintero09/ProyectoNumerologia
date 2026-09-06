@@ -1,29 +1,28 @@
 import { Router } from "express";
-import {
-  crearCompatibilidad,
-  listarCompatibilidades,
-  obtenerCompatibilidad,
-  actualizarCompatibilidad,
-  eliminarCompatibilidad,
+import { 
+  crearCompatibilidad, 
+  listarCompatibilidades, 
+  obtenerCompatibilidad, 
+  actualizarCompatibilidad, 
+  eliminarCompatibilidad 
 } from "../controllers/CompabilityControlers.js";
 
-import { validarTKN } from "../Middlewares/Tokens.js";
-
-
-import {
-  crearCompatibilityMatchValidator,
-  actualizarCompatibilityMatchValidator,
+import { 
+  crearCompatibilityMatchValidator, 
+  actualizarCompatibilityMatchValidator, 
+  idValidator 
 } from "../Validators/CompatibilityMatchesValidator.js";
-import { idValidator } from "../Validators/AuditlogsValidator.js";
+
+import { validarCampos } from "../middlewares/Validar.js";
+import { ValidarTKN } from "../middlewares/Tokens.js";
 
 const router = Router();
 
-router.use(validarTKN);
-
-router.post("/", crearCompatibilityMatchValidator, crearCompatibilidad);
 router.get("/", listarCompatibilidades);
-router.get("/:id", idValidator, obtenerCompatibilidad);
-router.put("/:id", idValidator, actualizarCompatibilityMatchValidator, actualizarCompatibilidad);
-router.delete("/:id", idValidator, eliminarCompatibilidad);
+router.get("/:id", idValidator, validarCampos, obtenerCompatibilidad);
+
+router.post("/", ValidarTKN, crearCompatibilityMatchValidator, validarCampos, crearCompatibilidad);
+router.put("/:id", ValidarTKN, idValidator, actualizarCompatibilityMatchValidator, validarCampos, actualizarCompatibilidad);
+router.delete("/:id", ValidarTKN, idValidator, validarCampos, eliminarCompatibilidad);
 
 export default router;

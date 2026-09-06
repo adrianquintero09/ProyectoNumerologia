@@ -1,35 +1,42 @@
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 
-export const actualizarCompatibilityMatchValidator = [
-  body("usuario_1")
-    .optional()
-    .isMongoId()
-    .withMessage("El usuario_1 debe ser un ObjectId válido de MongoDB"),
+export const crearNumerologyProfileValidator = [
+  body("usuario_id")
+    .notEmpty().withMessage("El usuario_id es obligatorio")
+    .isMongoId().withMessage("El usuario_id debe ser un ObjectId de MongoDB válido"),
 
-  body("usuario_2")
-    .optional()
-    .isMongoId()
-    .withMessage("El usuario_2 debe ser un ObjectId válido de MongoDB")
-    .custom((valor, { req }) => {
-      if (req.body.usuario_1 && valor === req.body.usuario_1) {
-        throw new Error("El usuario_2 no puede ser igual al usuario_1");
-      }
-      return true;
-    }),
+  body("numero_vida")
+    .notEmpty().withMessage("El número de vida es obligatorio")
+    .isInt({ min: 1 }).withMessage("El número de vida debe ser un entero mayor o igual a 1"),
 
-  body("puntaje")
-    .optional()
-    .isFloat({ min: 0, max: 100 })
-    .withMessage("El puntaje debe ser un número entre 0 y 100"),
+  body("numero_expresion")
+    .notEmpty().withMessage("El número de expresión es obligatorio")
+    .isInt({ min: 1 }).withMessage("El número de expresión debe ser un entero mayor o igual a 1"),
 
-  body("interpretacion")
-    .optional()
-    .trim()
-    .isString()
-    .withMessage("La interpretación debe ser una cadena de texto"),
+  body("numero_alma")
+    .notEmpty().withMessage("El número de alma es obligatorio")
+    .isInt({ min: 1 }).withMessage("El número de alma debe ser un entero mayor o igual a 1")
+];
 
-  body("fecha")
+export const actualizarNumerologyProfileValidator = [
+  body("usuario_id")
     .optional()
-    .isISO8601()
-    .withMessage("La fecha debe tener un formato ISO8601 válido"),
+    .isMongoId().withMessage("El usuario_id debe ser un ObjectId de MongoDB válido"),
+
+  body("numero_vida")
+    .optional()
+    .isInt({ min: 1 }).withMessage("El número de vida debe ser un entero mayor o igual a 1"),
+
+  body("numero_expresion")
+    .optional()
+    .isInt({ min: 1 }).withMessage("El número de expresión debe ser un entero mayor o igual a 1"),
+
+  body("numero_alma")
+    .optional()
+    .isInt({ min: 1 }).withMessage("El número de alma debe ser un entero mayor o igual a 1")
+];
+
+export const idValidator = [
+  param("id")
+    .isMongoId().withMessage("El id proporcionado no es un ObjectId válido de MongoDB")
 ];

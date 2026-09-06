@@ -1,50 +1,26 @@
 import { Router } from "express";
-import {
-  crearLectura,
-  listarLecturas,
-  obtenerLectura,
-  actualizarLectura,
-  eliminarLectura,
+import { 
+  crearReading, 
+  listarReadings, 
+  obtenerReading, 
+  actualizarReading, 
+  eliminarReading 
 } from "../controllers/ReadingControllers.js";
-
-
-import { ValidarTKN } from "../middlewares/validar-jwt.js";
-import {
-  crearReadingValidator,
-  actualizarReadingValidator
-} from "../middlewares/validar-reading.js";
-import { validarCampos } from "../middlewares/validar-campos.js";
+import { 
+  crearReadingValidator, 
+  actualizarReadingValidator, 
+  idValidator 
+} from "../validators/ReadingValidator.js";
+import { validarCampos } from "../middlewares/Validar.js";
+import { ValidarTKN } from "../middlewares/Tokens.js";
 
 const router = Router();
 
+router.get("/", listarReadings);
+router.get("/:id", idValidator, validarCampos, obtenerReading);
 
-router.use(ValidarTKN);
-
-
-router.post(
-  "/",
-  [
-    crearReadingValidator,
-    validarCampos
-  ],
-  crearLectura
-);
-
-
-router.get("/", listarLecturas);
-router.get("/:id", obtenerLectura);
-
-
-router.put(
-  "/:id",
-  [
-    actualizarReadingValidator,
-    validarCampos
-  ],
-  actualizarLectura
-);
-
-
-router.delete("/:id", eliminarLectura);
+router.post("/", ValidarTKN, crearReadingValidator, validarCampos, crearReading);
+router.put("/:id", ValidarTKN, idValidator, actualizarReadingValidator, validarCampos, actualizarReading);
+router.delete("/:id", ValidarTKN, idValidator, validarCampos, eliminarReading);
 
 export default router;
