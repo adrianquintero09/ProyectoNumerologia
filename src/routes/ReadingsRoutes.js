@@ -1,26 +1,28 @@
 import { Router } from "express";
 import { 
-  crearReading, 
-  listarReadings, 
-  obtenerReading, 
-  actualizarReading, 
-  eliminarReading 
+  crearLectura, 
+  listarLecturas, 
+  obtenerLectura, 
+  actualizarLectura, 
+  eliminarLectura 
 } from "../controllers/ReadingControllers.js";
+
 import { 
   crearReadingValidator, 
   actualizarReadingValidator, 
   idValidator 
-} from "../validators/ReadingValidator.js";
+} from "../Validators/ReadingValidator.js";
+
 import { validarCampos } from "../middlewares/Validar.js";
 import { ValidarTKN } from "../middlewares/Tokens.js";
 
 const router = Router();
 
-router.get("/", listarReadings);
-router.get("/:id", idValidator, validarCampos, obtenerReading);
+router.get("/", listarLecturas);
+router.get("/:id", idValidator, validarCampos, obtenerLectura);
 
-router.post("/", ValidarTKN, crearReadingValidator, validarCampos, crearReading);
-router.put("/:id", ValidarTKN, idValidator, actualizarReadingValidator, validarCampos, actualizarReading);
-router.delete("/:id", ValidarTKN, idValidator, validarCampos, eliminarReading);
+router.post("/", ValidarTKN, crearReadingValidator, validarCampos, crearLectura);
+router.put("/:id", ValidarTKN, idValidator, actualizarReadingValidator, validarCampos, actualizarLectura);
+router.delete("/:id", ValidarTKN, idValidator, validarCampos, eliminarLectura);
 
 export default router;

@@ -1,25 +1,32 @@
 import express from "express";
-import { cnxMongo } from "./src/config/cnxmongodb.js";
-import "dotenv/config";
+import { x } from "./src/config/cnxmongodb.js";
 
-import auditLogsRoutes from "./src/routes/AuditLogsRoutes.js";
-import compatibilityRoutes from "./src/routes/CompabilityRoutes.js";
-import numerologyProfilesRoutes from "./src/routes/NumerologyProfilesRoutes.js";
-import readingsRoutes from "./src/routes/ReadingsRoutes.js";
-import userRoutes from "./src/routes/UserRoutes.js";
+import UsersRoutes from "./src/routes/UserRoutes.js";
+import NumerologyProfilesRoutes from "./src/routes/CompabilityRoutes.js";
+import CompatibilityMatchesRoutes from "./src/routes/NumerologyProfilesRoutes.js";
+import ReadingsRoutes from "./src/routes/ReadingsRoutes.js";
+import AuditLogsRoutes from "./src/routes/AuditLogsRoutes.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT ;
 
 app.use(express.json());
 
+app.use("/api/v1/users", UsersRoutes);
+app.use("/api/v1/numerology-profiles", NumerologyProfilesRoutes);
+app.use("/api/v1/compatibility-matches", CompatibilityMatchesRoutes);
+app.use("/api/v1/readings", ReadingsRoutes);
+app.use("/api/v1/audit-logs", AuditLogsRoutes);
 
-app.use("/api/audit-logs", auditLogsRoutes);
-app.use("/api/compatibility", compatibilityRoutes);
-app.use("/api/numerology-profiles", numerologyProfilesRoutes);
-app.use("/api/readings", readingsRoutes);
-app.use("/api/users", userRoutes);
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ mensaje: "Error interno del servidor" });
+});
 
-app.listen(process.env.PORT, () => {
-    console.log(`server http://localhost:${process.env.PORT}`);
-    cnxMongo();
+x().then(() => {
+    app.listen(PORT, () => {
+        console.log(`Servidor corriendo en http://localhost:${PORT}`);
+    });
 });
