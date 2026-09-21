@@ -66,3 +66,14 @@ export const idValidator = [
   param("id")
     .isMongoId().withMessage("El id proporcionado no es un ObjectId válido de MongoDB")
 ];
+
+export const loginUserValidator = [
+  body("email")
+    .trim()
+    .notEmpty().withMessage("El email es obligatorio")
+    .isEmail().withMessage("Debe proporcionar un correo electrónico válido")
+    .normalizeEmail(),
+
+  body("password_hash")
+    .notEmpty().withMessage("La contraseña es obligatoria")
+];
