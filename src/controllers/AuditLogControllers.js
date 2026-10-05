@@ -1,6 +1,5 @@
 import AuditLogsModel from "../models/AuditLogsModel.js";
 
-
 export const crearAuditLog = async (req, res) => {
   try {
     const { usuario, endpoint, metodo, status_code } = req.body;
@@ -21,7 +20,6 @@ export const crearAuditLog = async (req, res) => {
   }
 };
 
-
 export const listarAuditLogs = async (req, res) => {
   try {
     const logs = await AuditLogsModel.find()
@@ -32,7 +30,6 @@ export const listarAuditLogs = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       mensaje: "Error al listar los logs de auditoría",
-      error: error.message,
     });
   }
 };
@@ -47,13 +44,14 @@ export const obtenerAuditLog = async (req, res) => {
 
     res.status(200).json(log);
   } catch (error) {
+    if (error.name === "CastError") {
+      return res.status(400).json({ mensaje: "El ID proporcionado no es válido" });
+    }
     res.status(500).json({
       mensaje: "Error al obtener el log de auditoría",
-      error: error.message,
     });
   }
 };
-
 
 export const eliminarAuditLog = async (req, res) => {
   try {
@@ -65,9 +63,11 @@ export const eliminarAuditLog = async (req, res) => {
 
     res.status(200).json({ mensaje: "Log eliminado correctamente" });
   } catch (error) {
+    if (error.name === "CastError") {
+      return res.status(400).json({ mensaje: "El ID proporcionado no es válido" });
+    }
     res.status(500).json({
       mensaje: "Error al eliminar el log",
-      error: error.message,
     });
   }
 };

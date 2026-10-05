@@ -18,11 +18,12 @@ import { ValidarTKN } from "../middlewares/Tokens.js";
 
 const router = Router();
 
+router.use(ValidarTKN);
+
 router.get("/", listarPerfilesNumerologicos);
 router.get("/:id", idValidator, validarCampos, obtenerPerfilNumerologico);
-
-router.post("/", ValidarTKN, crearNumerologyProfileValidator, validarCampos, crearPerfilNumerologico);
-router.put("/:id", ValidarTKN, idValidator, actualizarNumerologyProfileValidator, validarCampos, actualizarPerfilNumerologico);
-router.delete("/:id", ValidarTKN, idValidator, validarCampos, eliminarPerfilNumerologico);
+router.post("/", crearNumerologyProfileValidator, validarCampos, crearPerfilNumerologico);
+router.put("/:id", idValidator, actualizarNumerologyProfileValidator, validarCampos, actualizarPerfilNumerologico);
+router.delete("/:id", idValidator, validarCampos, eliminarPerfilNumerologico);
 
 export default router;

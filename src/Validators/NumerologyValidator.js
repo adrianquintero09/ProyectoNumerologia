@@ -1,9 +1,9 @@
 import { body, param } from "express-validator";
 
 export const crearNumerologyProfileValidator = [
-  body("usuario_id")
-    .notEmpty().withMessage("El usuario_id es obligatorio")
-    .isMongoId().withMessage("El usuario_id debe ser un ObjectId de MongoDB válido"),
+  body("usuario")
+    .notEmpty().withMessage("El usuario es obligatorio")
+    .isMongoId().withMessage("El usuario debe ser un ObjectId de MongoDB válido"),
 
   body("numero_vida")
     .notEmpty().withMessage("El número de vida es obligatorio")
@@ -19,9 +19,9 @@ export const crearNumerologyProfileValidator = [
 ];
 
 export const actualizarNumerologyProfileValidator = [
-  body("usuario_id")
+  body("usuario")
     .optional()
-    .isMongoId().withMessage("El usuario_id debe ser un ObjectId de MongoDB válido"),
+    .isMongoId().withMessage("El usuario debe ser un ObjectId de MongoDB válido"),
 
   body("numero_vida")
     .optional()

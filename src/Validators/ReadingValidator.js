@@ -1,45 +1,48 @@
 import { body, param } from "express-validator";
 
 export const crearReadingValidator = [
-  body("prompt")
-    .trim()
-    .notEmpty().withMessage("El prompt es obligatorio")
-    .isString().withMessage("El prompt debe ser una cadena de texto"),
+  body("usuario")
+    .notEmpty().withMessage("El usuario es obligatorio")
+    .isMongoId().withMessage("El usuario debe ser un ObjectId de MongoDB válido"),
 
-  body("respuesta")
+  body("prompt_enviado")
     .trim()
-    .notEmpty().withMessage("La respuesta es obligatoria")
-    .isString().withMessage("La respuesta debe ser una cadena de texto"),
+    .notEmpty().withMessage("El prompt enviado es obligatorio")
+    .isString().withMessage("El prompt enviado debe ser una cadena de texto"),
+
+  body("respuesta_generada")
+    .trim()
+    .notEmpty().withMessage("La respuesta generada es obligatoria")
+    .isString().withMessage("La respuesta generada debe ser una cadena de texto"),
 
   body("tipo_lectura")
     .trim()
     .notEmpty().withMessage("El tipo de lectura es obligatorio")
-    .isString().withMessage("El tipo de lectura debe ser una cadena de texto"),
-
-  body("fecha")
-    .optional()
-    .isISO8601().withMessage("La fecha debe tener un formato ISO8601 válido")
+    .isIn(["diaria", "general", "anual"]).withMessage("El tipo de lectura debe ser 'diaria', 'general' o 'anual'")
 ];
 
 export const actualizarReadingValidator = [
-  body("prompt")
+  body("usuario")
     .optional()
-    .trim()
-    .isString().withMessage("El prompt debe ser una cadena de texto"),
+    .isMongoId().withMessage("El usuario debe ser un ObjectId de MongoDB válido"),
 
-  body("respuesta")
+  body("prompt_enviado")
     .optional()
     .trim()
-    .isString().withMessage("La respuesta debe ser una cadena de texto"),
+    .notEmpty().withMessage("El prompt enviado no puede estar vacío")
+    .isString().withMessage("El prompt enviado debe ser una cadena de texto"),
+
+  body("respuesta_generada")
+    .optional()
+    .trim()
+    .notEmpty().withMessage("La respuesta generada no puede estar vacía")
+    .isString().withMessage("La respuesta generada debe ser una cadena de texto"),
 
   body("tipo_lectura")
     .optional()
     .trim()
-    .isString().withMessage("El tipo de lectura debe ser una cadena de texto"),
-
-  body("fecha")
-    .optional()
-    .isISO8601().withMessage("La fecha debe tener un formato ISO8601 válido")
+    .notEmpty().withMessage("El tipo de lectura no puede estar vacío")
+    .isIn(["diaria", "general", "anual"]).withMessage("El tipo de lectura debe ser 'diaria', 'general' o 'anual'")
 ];
 
 export const idValidator = [

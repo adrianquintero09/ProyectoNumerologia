@@ -1,6 +1,5 @@
 import CompatibilityMatches from "../models/CompatibilityMatches.js";
 
-
 export const crearCompatibilidad = async (req, res) => {
   try {
     const { usuario_1, usuario_2, puntaje, interpretacion } = req.body;
@@ -21,11 +20,9 @@ export const crearCompatibilidad = async (req, res) => {
   }
 };
 
-
 export const actualizarCompatibilidad = async (req, res) => {
   try {
     const { puntaje, interpretacion } = req.body;
-
 
     const compatibilidad = await CompatibilityMatches.findByIdAndUpdate(
       req.params.id,
@@ -39,13 +36,15 @@ export const actualizarCompatibilidad = async (req, res) => {
 
     res.status(200).json(compatibilidad);
   } catch (error) {
+    if (error.name === "CastError") {
+      return res.status(400).json({ mensaje: "El ID proporcionado no es válido" });
+    }
     res.status(400).json({
       mensaje: "Error al actualizar la compatibilidad",
       error: error.message,
     });
   }
 };
-
 
 export const eliminarCompatibilidad = async (req, res) => {
   try {
@@ -57,13 +56,14 @@ export const eliminarCompatibilidad = async (req, res) => {
 
     res.status(200).json({ mensaje: "Compatibilidad eliminada correctamente" });
   } catch (error) {
+    if (error.name === "CastError") {
+      return res.status(400).json({ mensaje: "El ID proporcionado no es válido" });
+    }
     res.status(500).json({
       mensaje: "Error al eliminar la compatibilidad",
-      error: error.message,
     });
   }
 };
-
 
 export const listarCompatibilidades = async (req, res) => {
   try {
@@ -75,11 +75,9 @@ export const listarCompatibilidades = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       mensaje: "Error al listar compatibilidades",
-      error: error.message,
     });
   }
 };
-
 
 export const obtenerCompatibilidad = async (req, res) => {
   try {
@@ -93,9 +91,11 @@ export const obtenerCompatibilidad = async (req, res) => {
 
     res.status(200).json(compatibilidad);
   } catch (error) {
+    if (error.name === "CastError") {
+      return res.status(400).json({ mensaje: "El ID proporcionado no es válido" });
+    }
     res.status(500).json({
       mensaje: "Error al obtener la compatibilidad",
-      error: error.message,
     });
   }
 };

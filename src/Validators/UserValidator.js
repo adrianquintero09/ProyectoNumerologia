@@ -3,7 +3,7 @@ import { body, param } from "express-validator";
 export const crearUsuarioValidator = [
   body("nombre_completo")
     .trim()
-    .notEmpty().withMessage("El nombre completo es obligatorio")
+    .notEmpty().withMessage("El nombre completo es obligatorio y no puede contener solo espacios")
     .isLength({ min: 3, max: 100 }).withMessage("El nombre completo debe tener entre 3 y 100 caracteres"),
 
   body("email")
@@ -24,27 +24,26 @@ export const crearUsuarioValidator = [
         throw new Error("La fecha de nacimiento no puede ser futura");
       }
       return true;
-    }),
-
-  body("fecha_registro")
-    .optional()
-    .isISO8601().withMessage("La fecha de registro debe tener un formato ISO8601 válido")
+    })
 ];
 
-export const  actualizarUsuarioValidator = [
+export const actualizarUsuarioValidator = [
   body("nombre_completo")
     .optional()
     .trim()
+    .notEmpty().withMessage("El nombre completo no puede contener solo espacios")
     .isLength({ min: 3, max: 100 }).withMessage("El nombre completo debe tener entre 3 y 100 caracteres"),
 
   body("email")
     .optional()
     .trim()
+    .notEmpty().withMessage("El email no puede estar vacío")
     .isEmail().withMessage("Debe proporcionar un correo electrónico válido")
     .normalizeEmail(),
 
   body("password_hash")
     .optional()
+    .notEmpty().withMessage("La contraseña no puede estar vacía")
     .isLength({ min: 6 }).withMessage("La contraseña debe tener al menos 6 caracteres"),
 
   body("fecha_nacimiento")
@@ -55,11 +54,7 @@ export const  actualizarUsuarioValidator = [
         throw new Error("La fecha de nacimiento no puede ser futura");
       }
       return true;
-    }),
-
-  body("fecha_registro")
-    .optional()
-    .isISO8601().withMessage("La fecha de registro debe tener un formato ISO8601 válido")
+    })
 ];
 
 export const idValidator = [

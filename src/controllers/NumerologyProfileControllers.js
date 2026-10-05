@@ -1,6 +1,5 @@
 import NumerologyProfilesModel from "../models/NumerologyProfilesModel.js";
 
-
 export const crearPerfilNumerologico = async (req, res) => {
   try {
     const { usuario, numero_vida, numero_expresion, numero_alma } = req.body;
@@ -21,11 +20,9 @@ export const crearPerfilNumerologico = async (req, res) => {
   }
 };
 
-
 export const actualizarPerfilNumerologico = async (req, res) => {
   try {
     const { numero_vida, numero_expresion, numero_alma } = req.body;
-
 
     const perfil = await NumerologyProfilesModel.findByIdAndUpdate(
       req.params.id,
@@ -39,6 +36,9 @@ export const actualizarPerfilNumerologico = async (req, res) => {
 
     res.status(200).json(perfil);
   } catch (error) {
+    if (error.name === "CastError") {
+      return res.status(400).json({ mensaje: "El ID proporcionado no es válido" });
+    }
     res.status(400).json({
       mensaje: "Error al actualizar perfil numerológico",
       error: error.message,
@@ -56,13 +56,14 @@ export const eliminarPerfilNumerologico = async (req, res) => {
 
     res.status(200).json({ mensaje: "Perfil numerológico eliminado correctamente" });
   } catch (error) {
+    if (error.name === "CastError") {
+      return res.status(400).json({ mensaje: "El ID proporcionado no es válido" });
+    }
     res.status(500).json({
       mensaje: "Error al eliminar perfil numerológico",
-      error: error.message,
     });
   }
 };
-
 
 export const listarPerfilesNumerologicos = async (req, res) => {
   try {
@@ -71,11 +72,9 @@ export const listarPerfilesNumerologicos = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       mensaje: "Error al listar perfiles numerológicos",
-      error: error.message,
     });
   }
 };
-
 
 export const obtenerPerfilNumerologico = async (req, res) => {
   try {
@@ -87,9 +86,11 @@ export const obtenerPerfilNumerologico = async (req, res) => {
 
     res.status(200).json(perfil);
   } catch (error) {
+    if (error.name === "CastError") {
+      return res.status(400).json({ mensaje: "El ID proporcionado no es válido" });
+    }
     res.status(500).json({
       mensaje: "Error al obtener perfil numerológico",
-      error: error.message,
     });
   }
 };

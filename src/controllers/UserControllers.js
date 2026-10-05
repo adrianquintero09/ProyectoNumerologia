@@ -27,7 +27,7 @@ export const loginUsuario = async (req, res) => {
   const { email, password_hash } = req.body;
 
   try {
-    const usuario = await UserModel.findOne({ email, estado: { $ne: 0 } });
+    const usuario = await UserModel.findOne({ email });
 
     if (!usuario) {
       return res.status(400).json({ mensaje: "Usuario / Password no son correctos!" });
@@ -42,7 +42,7 @@ export const loginUsuario = async (req, res) => {
     const token = await GenerarTKN(usuario._id);
     res.json({ usuario, token });
   } catch (error) {
-    res.status(500).json({ mensaje: "Error en el servidor", error: error.message });
+    res.status(500).json({ mensaje: "Error en el servidor" });
   }
 };
 
@@ -51,7 +51,7 @@ export const listarUsuarios = async (req, res) => {
     const usuarios = await UserModel.find();
     res.status(200).json(usuarios);
   } catch (error) {
-    res.status(500).json({ mensaje: "Error al listar usuarios", error: error.message });
+    res.status(500).json({ mensaje: "Error al listar usuarios" });
   }
 };
 
@@ -65,7 +65,10 @@ export const obtenerUsuario = async (req, res) => {
 
     res.status(200).json(usuario);
   } catch (error) {
-    res.status(500).json({ mensaje: "Error al obtener usuario", error: error.message });
+    if (error.name === "CastError") {
+      return res.status(400).json({ mensaje: "El ID proporcionado no tiene un formato válido" });
+    }
+    res.status(500).json({ mensaje: "Error al obtener usuario" });
   }
 };
 
@@ -92,6 +95,9 @@ export const actualizarUsuario = async (req, res) => {
 
     res.status(200).json(usuario);
   } catch (error) {
+    if (error.name === "CastError") {
+      return res.status(400).json({ mensaje: "El ID proporcionado no tiene un formato válido" });
+    }
     res.status(400).json({ mensaje: "Error al actualizar usuario", error: error.message });
   }
 };
@@ -106,7 +112,9 @@ export const eliminarUsuario = async (req, res) => {
 
     res.status(200).json({ mensaje: "Usuario eliminado correctamente" });
   } catch (error) {
-    res.status(500).json({ mensaje: "Error al eliminar usuario", error: error.message });
+    if (error.name === "CastError") {
+      return res.status(400).json({ mensaje: "El ID proporcionado no tiene un formato válido" });
+    }
+    res.status(500).json({ mensaje: "Error al eliminar usuario" });
   }
 };
-

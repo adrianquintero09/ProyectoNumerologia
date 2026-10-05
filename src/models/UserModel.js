@@ -13,6 +13,7 @@ const usuarioSchema = new mongoose.Schema(
       unique: true,
       trim: true,
       lowercase: true,
+      match: [/^\S+@\S+\.\S+$/, "Por favor, ingresa un correo electrónico válido"],
     },
     password_hash: {
       type: String,
@@ -22,12 +23,10 @@ const usuarioSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
-    fecha_registro: {
-      type: Date,
-      default: Date.now,
-    },
   },
-  { timestamps: true } 
+  { 
+    timestamps: { createdAt: "fecha_registro", updatedAt: true } 
+  }
 );
 
 export default mongoose.model("Usuario", usuarioSchema);

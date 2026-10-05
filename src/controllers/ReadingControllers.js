@@ -1,6 +1,5 @@
 import ReadingsModel from "../models/ReadingsModel.js";
 
-
 export const crearLectura = async (req, res) => {
   try {
     const { usuario, prompt_enviado, respuesta_generada, tipo_lectura } = req.body;
@@ -21,7 +20,6 @@ export const crearLectura = async (req, res) => {
   }
 };
 
-
 export const actualizarLectura = async (req, res) => {
   try {
     const { prompt_enviado, respuesta_generada, tipo_lectura } = req.body;
@@ -38,13 +36,15 @@ export const actualizarLectura = async (req, res) => {
 
     res.status(200).json(lectura);
   } catch (error) {
+    if (error.name === "CastError") {
+      return res.status(400).json({ mensaje: "El ID proporcionado no es válido" });
+    }
     res.status(400).json({
       mensaje: "Error al actualizar la lectura",
       error: error.message,
     });
   }
 };
-
 
 export const eliminarLectura = async (req, res) => {
   try {
@@ -56,9 +56,11 @@ export const eliminarLectura = async (req, res) => {
 
     res.status(200).json({ mensaje: "Lectura eliminada correctamente" });
   } catch (error) {
+    if (error.name === "CastError") {
+      return res.status(400).json({ mensaje: "El ID proporcionado no es válido" });
+    }
     res.status(500).json({
       mensaje: "Error al eliminar la lectura",
-      error: error.message,
     });
   }
 };
@@ -70,11 +72,9 @@ export const listarLecturas = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       mensaje: "Error al listar las lecturas",
-      error: error.message,
     });
   }
 };
-
 
 export const obtenerLectura = async (req, res) => {
   try {
@@ -86,9 +86,11 @@ export const obtenerLectura = async (req, res) => {
 
     res.status(200).json(lectura);
   } catch (error) {
+    if (error.name === "CastError") {
+      return res.status(400).json({ mensaje: "El ID proporcionado no es válido" });
+    }
     res.status(500).json({
       mensaje: "Error al obtener la lectura",
-      error: error.message,
     });
   }
 };

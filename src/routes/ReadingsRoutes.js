@@ -18,11 +18,12 @@ import { ValidarTKN } from "../middlewares/Tokens.js";
 
 const router = Router();
 
+router.use(ValidarTKN);
+
 router.get("/", listarLecturas);
 router.get("/:id", idValidator, validarCampos, obtenerLectura);
-
-router.post("/", ValidarTKN, crearReadingValidator, validarCampos, crearLectura);
-router.put("/:id", ValidarTKN, idValidator, actualizarReadingValidator, validarCampos, actualizarLectura);
-router.delete("/:id", ValidarTKN, idValidator, validarCampos, eliminarLectura);
+router.post("/", crearReadingValidator, validarCampos, crearLectura);
+router.put("/:id", idValidator, actualizarReadingValidator, validarCampos, actualizarLectura);
+router.delete("/:id", idValidator, validarCampos, eliminarLectura);
 
 export default router;

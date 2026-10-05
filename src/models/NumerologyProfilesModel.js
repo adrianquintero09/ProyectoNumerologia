@@ -6,22 +6,25 @@ const numerologyProfileSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Usuario",
       required: true,
-      unique: true, 
+      unique: true,
     },
     numero_vida: {
       type: Number,
       required: true,
+      min: 1,
     },
     numero_expresion: {
       type: Number,
       required: true,
+      min: 1,
     },
     numero_alma: {
       type: Number,
       required: true,
+      min: 1,
     },
   },
-  { timestamps: true } 
+  { timestamps: true }
 );
 
 export default mongoose.model("NumerologyProfile", numerologyProfileSchema);
